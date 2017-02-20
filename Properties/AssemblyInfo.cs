@@ -3,9 +3,9 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("P3D-Legacy-Shared")]
 [assembly: AssemblyDescription("Shared classes between the Game and the Launcher")]
-[assembly: AssemblyCompany("P3D-Legacy")]
+[assembly: AssemblyCompany("The P3D Team")]
 [assembly: AssemblyProduct("P3D-Legacy-Shared")]
-[assembly: AssemblyCopyright("Copyright © P3D-Legacy 2017")]
+[assembly: AssemblyCopyright("Copyright © The P3D Team 2017")]
 
 [assembly: ComVisible(false)]
 

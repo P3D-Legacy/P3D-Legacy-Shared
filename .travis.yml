@@ -1,0 +1,24 @@
+language: csharp
+os:
+  - linux
+#  - osx
+mono:
+  - latest
+
+solution: 'P3D-Legacy Shared.sln'
+
+before_install:
+  - git submodule update --init --recursive
+  
+install:
+  - nuget restore 'P3D-Legacy Shared.sln'
+
+script:
+  - xbuild /p:Configuration=Release 'P3D-Legacy Shared.sln'
+  - xbuild /p:Configuration=Debug 'P3D-Legacy Shared.sln'
+
+notifications:
+  email:
+    on_success: change
+    on_failure: always
+    on_start: never

@@ -11,7 +11,7 @@
 
         public string EncodedData { get; set; }
         private StringEncoding Encoder { get; set; }
-        private string Data { get { return Encoder.Decrypt(EncodedData); } set { EncodedData = Encoder.Encrypt(value); } }
+        private string Data { get { return Encoder.Decode(EncodedData); } set { EncodedData = Encoder.Encode(value); } }
 
         public EncodedString(string str) { EncodedData = string.Empty; Encoder = new StringEncoding(); Data = str; }
 

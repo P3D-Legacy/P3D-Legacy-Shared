@@ -25,12 +25,12 @@ namespace P3D.Legacy.Shared
             new Random().NextBytes(key);
             var data = GameJoltYaml.Serialize(gameJoltYaml);
 
-            return $"{new StringEncoding().EncryptRaw(key)}|{new StringEncryption(key).Encrypt(data)}";
+            return $"{new StringEncoding().EncodeRaw(key)}|{new StringEncryption(key).Encrypt(data)}";
         }
         private static GameJoltYaml ParseGJArg(string arg)
         {
             var split = arg.Split('|');
-            var key = new StringEncoding().DecryptRaw(split[0]);
+            var key = new StringEncoding().DecodeRaw(split[0]);
             var data = new StringEncryption(key).Decrypt(split[1]);
 
             return GameJoltYaml.Deserialize(data);

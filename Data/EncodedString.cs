@@ -9,7 +9,7 @@
         public static string GetEncryptedData(EncodedString encodedString) => encodedString.EncodedData;
 
 
-        public string EncodedData { get; set; }
+        private string EncodedData { get; set; }
         private StringEncoding Encoder { get; set; }
         private string Data { get { return Encoder.Decode(EncodedData); } set { EncodedData = Encoder.Encode(value); } }
 

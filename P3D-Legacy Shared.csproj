@@ -31,8 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+    </Reference>
     <Reference Include="NDesk.Options, Version=0.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>$(SolutionDir)\packages\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLExt.FileStorage, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\PCLExt.FileStorage.1.0.7\lib\net45\PCLExt.FileStorage.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLExt.FileStorage.Abstractions, Version=1.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>$(SolutionDir)\packages\PCLExt.FileStorage.1.0.7\lib\net45\PCLExt.FileStorage.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,6 +51,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LaunchArgsHandler.cs" />
+    <Compile Include="Extensions\AsyncExtensions.cs" />
+    <Compile Include="Services\Localization.cs" />
+    <Compile Include="Storage\Files\ILocalizationFile.cs" />
+    <Compile Include="Storage\Files\LocalizationFile.cs" />
+    <Compile Include="Storage\Folders\LocalizationFolder.cs" />
+    <Compile Include="Storage\Folders\ILocalizationFolder.cs" />
     <Compile Include="YamlConverters\EncodedStringConverter.cs" />
     <Compile Include="Data\EncodedString.cs" />
     <Compile Include="Data\GameJoltYaml.cs" />
@@ -52,5 +67,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

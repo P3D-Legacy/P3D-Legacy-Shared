@@ -57,22 +57,7 @@ namespace P3D.Legacy.Shared.Storage.Files
 
             return new CultureInfo(info);
         }
-
-        public Task CopyAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => File.CopyAsync(newPath, collisionOption, cancellationToken);
-        public Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken)) => File.DeleteAsync(cancellationToken);
-        public Task MoveAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => File.MoveAsync(newPath, collisionOption, cancellationToken);
-        public Task<System.IO.Stream> OpenAsync(FileAccess fileAccess, CancellationToken cancellationToken = default(CancellationToken)) => File.OpenAsync(fileAccess, cancellationToken);
-        public Task RenameAsync(string newName, NameCollisionOption collisionOption = NameCollisionOption.FailIfExists, CancellationToken cancellationToken = new CancellationToken()) => File.RenameAsync(newName, collisionOption, cancellationToken);
-
-        public string GetString(string stringID)
-        {
-            if (stringID == null)
-                stringID = string.Empty;
-
-            return Tokens.TryGetValue(stringID, out var token) ? token : $"NOT FOUND: {stringID}";
-        }
-
-        public void Reload()
+        private void Reload()
         {
             var cultureInfo = LocalizationInfo.CultureInfo;
             var author = "";
@@ -112,6 +97,20 @@ namespace P3D.Legacy.Shared.Storage.Files
             }
 
             LocalizationInfo = new LocalizationInfo(cultureInfo, customName, author);
+        }
+
+        public Task CopyAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => File.CopyAsync(newPath, collisionOption, cancellationToken);
+        public Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken)) => File.DeleteAsync(cancellationToken);
+        public Task MoveAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => File.MoveAsync(newPath, collisionOption, cancellationToken);
+        public Task<System.IO.Stream> OpenAsync(FileAccess fileAccess, CancellationToken cancellationToken = default(CancellationToken)) => File.OpenAsync(fileAccess, cancellationToken);
+        public Task RenameAsync(string newName, NameCollisionOption collisionOption = NameCollisionOption.FailIfExists, CancellationToken cancellationToken = new CancellationToken()) => File.RenameAsync(newName, collisionOption, cancellationToken);
+
+        public string GetString(string stringID)
+        {
+            if (stringID == null)
+                stringID = string.Empty;
+
+            return Tokens.TryGetValue(stringID, out var token) ? token : $"NOT FOUND: {stringID}";
         }
     }
 }

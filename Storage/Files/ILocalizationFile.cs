@@ -10,6 +10,5 @@ namespace P3D.Legacy.Shared.Storage.Files
         LocalizationInfo LocalizationInfo { get; }
 
         string GetString(string stringID);
-        void Reload();
     }
 }

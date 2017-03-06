@@ -111,7 +111,7 @@ namespace P3D.Legacy.Shared.Storage.Files
                 stringID = string.Empty;
 
             string token;
-            return Tokens.TryGetValue(stringID, out token) ? token : $"NOT FOUND: {stringID}";
+            return Tokens.TryGetValue(stringID, out token) ? token : stringID;
         }
     }
 }

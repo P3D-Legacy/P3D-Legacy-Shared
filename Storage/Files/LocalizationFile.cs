@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
 using CsvHelper;
 
+using P3D.Legacy.Shared.Data;
 using P3D.Legacy.Shared.Extensions;
 
 using PCLExt.FileStorage;
@@ -14,7 +17,7 @@ namespace P3D.Legacy.Shared.Storage.Files
 {
     public class LocalizationFile : ILocalizationFile
     {
-        internal static CultureInfo DefaultLanguage { get; } = new CultureInfo("en");
+        internal static LocalizationInfo DefaultLocalizationInfo { get; } = new LocalizationInfo(new CultureInfo("en"));
 
         internal const string Prefix = "translation_";
         internal const string FileExtension = ".csv";
@@ -23,7 +26,8 @@ namespace P3D.Legacy.Shared.Storage.Files
         public string Name => File.Name;
         public string Path => File.Path;
 
-        public CultureInfo Language { get; }
+        public bool IsCustom => System.IO.Path.GetFileNameWithoutExtension(Name).EndsWith("_c");
+        public LocalizationInfo LocalizationInfo { get; private set; }
 
         private IFile File { get; }
         private Dictionary<string, string> Tokens { get; } = new Dictionary<string, string>();
@@ -31,14 +35,27 @@ namespace P3D.Legacy.Shared.Storage.Files
         public LocalizationFile(IFile file)
         {
             File = file;
-            Language = new CultureInfo(Name.Replace(Prefix, "").Replace(FileExtension, ""));
+            LocalizationInfo = new LocalizationInfo(GetCultureInfo(Name));
             Reload();
         }
         public LocalizationFile(IFile file, CultureInfo language)
         {
             File = file;
-            Language = language;
+            LocalizationInfo = new LocalizationInfo(language);
             Reload();
+        }
+        private CultureInfo GetCultureInfo(string fileName)
+        {
+            var info = Regex.Replace(System.IO.Path.GetFileNameWithoutExtension(fileName), Prefix, "", RegexOptions.IgnoreCase);
+            if (IsCustom)
+            {
+                info = info.Replace("_c", "");
+                var customName = info.Split('_').Last();
+
+                info = info.Remove(info.Length - 1 - customName.Length, customName.Length + 1); // -- '_' should be removed too
+            }
+
+            return new CultureInfo(info);
         }
 
         public Task CopyAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => File.CopyAsync(newPath, collisionOption, cancellationToken);
@@ -57,12 +74,28 @@ namespace P3D.Legacy.Shared.Storage.Files
 
         public void Reload()
         {
-            var customLang = !Equals(DefaultLanguage, Language);
+            var cultureInfo = LocalizationInfo.CultureInfo;
+            var author = "";
+            var customName = "";
+
+            var customLang = IsCustom || !Equals(DefaultLocalizationInfo.CultureInfo, cultureInfo);
             using (var parser = new CsvParser(new System.IO.StringReader(AsyncExtensions.RunSync(this.ReadAllTextAsync))))
             {
                 string[] row;
                 while ((row = parser.Read()) != null)
                 {
+                    if (string.Equals(row[0], "LANGUAGE_NAME", StringComparison.OrdinalIgnoreCase))
+                    {
+                        customName = customLang ? row[3] : row[2];
+                        continue;
+                    }
+
+                    if (string.Equals(row[0], "LANGUAGE_MAINTAINER", StringComparison.OrdinalIgnoreCase))
+                    {
+                        author = customLang ? row[3] : row[2];
+                        continue;
+                    }
+
                     // -- Token Section
                     if (string.Equals(row[0], "BEGIN", StringComparison.OrdinalIgnoreCase))
                     {
@@ -77,6 +110,8 @@ namespace P3D.Legacy.Shared.Storage.Files
 
                 }
             }
+
+            LocalizationInfo = new LocalizationInfo(cultureInfo, customName, author);
         }
     }
 }

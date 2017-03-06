@@ -84,11 +84,12 @@ namespace P3D.Legacy.Shared.Extensions
 
         private class ExclusiveSynchronizationContext : SynchronizationContext
         {
-            private bool done;
             public Exception InnerException { get; set; }
-            readonly AutoResetEvent workItemsWaiting = new AutoResetEvent(false);
-            readonly Queue<Tuple<SendOrPostCallback, object>> items =
-                new Queue<Tuple<SendOrPostCallback, object>>();
+
+            private bool _done;
+
+            private readonly AutoResetEvent _workItemsWaiting = new AutoResetEvent(false);
+            private readonly Queue<Tuple<SendOrPostCallback, object>> _items = new Queue<Tuple<SendOrPostCallback, object>>();
 
             public override void Send(SendOrPostCallback d, object state)
             {
@@ -97,49 +98,36 @@ namespace P3D.Legacy.Shared.Extensions
 
             public override void Post(SendOrPostCallback d, object state)
             {
-                lock (items)
+                lock (_items)
                 {
-                    items.Enqueue(Tuple.Create(d, state));
+                    _items.Enqueue(Tuple.Create(d, state));
                 }
-                workItemsWaiting.Set();
-            }
-
-            public void EndMessageLoop()
-            {
-                Post(_ => done = true, null);
+                _workItemsWaiting.Set();
             }
 
             public void BeginMessageLoop()
             {
-                while (!done)
+                while (!_done)
                 {
                     Tuple<SendOrPostCallback, object> task = null;
-                    lock (items)
+                    lock (_items)
                     {
-                        if (items.Count > 0)
-                        {
-                            task = items.Dequeue();
-                        }
+                        if (_items.Count > 0)
+                            task = _items.Dequeue();
                     }
                     if (task != null)
                     {
                         task.Item1(task.Item2);
                         if (InnerException != null) // the method threw an exeption
-                        {
                             throw new AggregateException("AsyncHelpers.Run method threw an exception.", InnerException);
-                        }
                     }
                     else
-                    {
-                        workItemsWaiting.WaitOne();
-                    }
+                        _workItemsWaiting.WaitOne();
                 }
             }
+            public void EndMessageLoop() => Post(_ => _done = true, null);
 
-            public override SynchronizationContext CreateCopy()
-            {
-                return this;
-            }
+            public override SynchronizationContext CreateCopy() => this;
         }
     }
 }

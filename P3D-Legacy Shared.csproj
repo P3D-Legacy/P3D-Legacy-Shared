@@ -50,13 +50,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\LocalizationInfo.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="LaunchArgsHandler.cs" />
     <Compile Include="Extensions\AsyncExtensions.cs" />
-    <Compile Include="Services\Localization.cs" />
+    <Compile Include="Data\Localization.cs" />
     <Compile Include="Storage\Files\ILocalizationFile.cs" />
     <Compile Include="Storage\Files\LocalizationFile.cs" />
     <Compile Include="Storage\Folders\LocalizationFolder.cs" />
     <Compile Include="Storage\Folders\ILocalizationFolder.cs" />
+    <Compile Include="YamlConverters\CultureInfoConverter.cs" />
     <Compile Include="YamlConverters\EncodedStringConverter.cs" />
     <Compile Include="Data\EncodedString.cs" />
     <Compile Include="Data\GameJoltYaml.cs" />

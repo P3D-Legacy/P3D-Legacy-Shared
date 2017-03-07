@@ -12,7 +12,6 @@ namespace P3D.Legacy.Shared.Data
     {
         private Dictionary<string, Func<string>> Replacers { get; } = new Dictionary<string, Func<string>>()
         {
-            {"\n", () => Environment.NewLine }
         };
 
         private ILocalizationFile LocalizationFile { get; set; }

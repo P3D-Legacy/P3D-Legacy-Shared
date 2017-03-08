@@ -10,8 +10,11 @@ namespace P3D.Legacy.Shared.Data
 {
     public class Localization
     {
+        // TODO: Fix this crappy workaround
         private Dictionary<string, Func<string>> Replacers { get; } = new Dictionary<string, Func<string>>()
         {
+            {"\r\n", () => "\n"},
+            {"\n", () => Environment.NewLine},
         };
 
         private ILocalizationFile LocalizationFile { get; set; }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -9,13 +10,21 @@ using System.Threading.Tasks;
 using CsvHelper;
 
 using P3D.Legacy.Shared.Data;
-using P3D.Legacy.Shared.Extensions;
 
 using PCLExt.FileStorage;
 
 namespace P3D.Legacy.Shared.Storage.Files
 {
-    public class LocalizationFile : ILocalizationFile
+    /*
+    public interface ILocalizationFile : IFile
+    {
+        bool IsCustom { get; }
+        LocalizationInfo LocalizationInfo { get; }
+
+        string GetString(string stringID);
+    }
+    */
+    public class LocalizationFile : IFile
     {
         internal static LocalizationInfo DefaultLocalizationInfo { get; } = new LocalizationInfo(new CultureInfo("en"));
 
@@ -23,24 +32,24 @@ namespace P3D.Legacy.Shared.Storage.Files
         internal const string FileExtension = ".csv";
 
 
-        public string Name => File.Name;
-        public string Path => File.Path;
+        private readonly IFile _file;
+        public string Name => _file.Name;
+        public string Path => _file.Path;
 
         public bool IsCustom => System.IO.Path.GetFileNameWithoutExtension(Name).EndsWith("_c");
         public LocalizationInfo LocalizationInfo { get; private set; }
 
-        private IFile File { get; }
         private Dictionary<string, string> Tokens { get; } = new Dictionary<string, string>();
 
         public LocalizationFile(IFile file)
         {
-            File = file;
+            _file = file;
             LocalizationInfo = new LocalizationInfo(GetCultureInfo(Name));
             Reload();
         }
         public LocalizationFile(IFile file, CultureInfo language)
         {
-            File = file;
+            _file = file;
             LocalizationInfo = new LocalizationInfo(language);
             Reload();
         }
@@ -64,7 +73,7 @@ namespace P3D.Legacy.Shared.Storage.Files
             var customName = "";
 
             var customLang = IsCustom || !Equals(DefaultLocalizationInfo.CultureInfo, cultureInfo);
-            using (var parser = new CsvParser(new System.IO.StringReader(AsyncExtensions.RunSync(this.ReadAllTextAsync))))
+            using (var parser = new CsvParser(new StringReader(this.ReadAllText())))
             {
                 string[] row;
                 while ((row = parser.Read()) != null)
@@ -99,11 +108,16 @@ namespace P3D.Legacy.Shared.Storage.Files
             LocalizationInfo = new LocalizationInfo(cultureInfo, customName, author);
         }
 
-        public Task CopyAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => File.CopyAsync(newPath, collisionOption, cancellationToken);
-        public Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken)) => File.DeleteAsync(cancellationToken);
-        public Task MoveAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => File.MoveAsync(newPath, collisionOption, cancellationToken);
-        public Task<System.IO.Stream> OpenAsync(FileAccess fileAccess, CancellationToken cancellationToken = default(CancellationToken)) => File.OpenAsync(fileAccess, cancellationToken);
-        public Task RenameAsync(string newName, NameCollisionOption collisionOption = NameCollisionOption.FailIfExists, CancellationToken cancellationToken = new CancellationToken()) => File.RenameAsync(newName, collisionOption, cancellationToken);
+        public Stream Open(PCLExt.FileStorage.FileAccess fileAccess) => _file.Open(fileAccess);
+        public Task<Stream> OpenAsync(PCLExt.FileStorage.FileAccess fileAccess, CancellationToken cancellationToken = default(CancellationToken)) => _file.OpenAsync(fileAccess, cancellationToken);
+        public void Delete() => _file.Delete();
+        public Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken)) => _file.DeleteAsync(cancellationToken);
+        public void Rename(string newName, NameCollisionOption collisionOption = NameCollisionOption.FailIfExists) => _file.Rename(newName, collisionOption);
+        public Task RenameAsync(string newName, NameCollisionOption collisionOption = NameCollisionOption.FailIfExists, CancellationToken cancellationToken = default(CancellationToken)) => _file.RenameAsync(newName, collisionOption, cancellationToken);
+        public void Move(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting) => _file.Move(newPath, collisionOption);
+        public Task MoveAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => _file.MoveAsync(newPath, collisionOption, cancellationToken);
+        public void Copy(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting) => _file.Copy(newPath, collisionOption);
+        public Task CopyAsync(string newPath, NameCollisionOption collisionOption = NameCollisionOption.ReplaceExisting, CancellationToken cancellationToken = default(CancellationToken)) => _file.CopyAsync(newPath, collisionOption, cancellationToken);
 
         public string GetString(string stringID)
         {

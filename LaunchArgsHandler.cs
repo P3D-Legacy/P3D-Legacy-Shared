@@ -14,10 +14,7 @@ namespace P3D.Legacy.Shared
             options.OptionSet.Parse(args);
             return options;
         }
-        public static string CreateArgs(GameJoltYaml gameJoltYaml, bool forceGraphics)
-        {
-            return $"-gj={GetGJArg(gameJoltYaml)} {(forceGraphics ? "-forcegraphics" : "")}";
-        }
+        public static string CreateArgs(GameJoltYaml gameJoltYaml, bool forceGraphics) => $"-gj={GetGJArg(gameJoltYaml)} {(forceGraphics ? "-forcegraphics" : "")}";
 
         private static string GetGJArg(GameJoltYaml gameJoltYaml)
         {

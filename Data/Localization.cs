@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
-using P3D.Legacy.Shared.Extensions;
 using P3D.Legacy.Shared.Storage.Files;
 using P3D.Legacy.Shared.Storage.Folders;
 
@@ -17,21 +15,21 @@ namespace P3D.Legacy.Shared.Data
             {"\n", () => Environment.NewLine},
         };
 
-        private ILocalizationFile LocalizationFile { get; set; }
+        private LocalizationFile LocalizationFile { get; set; }
 
 
-        public Localization(ILocalizationFolder localizationFolder, LocalizationInfo localizationInfo)
+        public Localization(LocalizationFolder localizationFolder, LocalizationInfo localizationInfo)
         {
-            AsyncExtensions.RunSync(() => LoadTranslationFile(localizationFolder, localizationInfo));
+            LoadTranslationFile(localizationFolder, localizationInfo);
         }
-        private async Task LoadTranslationFile(ILocalizationFolder localizationFolder, LocalizationInfo localizationInfo)
+        private void LoadTranslationFile(LocalizationFolder localizationFolder, LocalizationInfo localizationInfo)
         {
-            if (await localizationFolder.CheckTranslationExistsAsync(localizationInfo))
-                LocalizationFile = await localizationFolder.GetTranslationFileAsync(localizationInfo);
+            if (localizationFolder.CheckTranslationExists(localizationInfo))
+                LocalizationFile = localizationFolder.GetTranslationFile(localizationInfo);
             else
             {
-                if (await localizationFolder.CheckTranslationExistsAsync(Storage.Files.LocalizationFile.DefaultLocalizationInfo))
-                    LocalizationFile = await localizationFolder.GetTranslationFileAsync(Storage.Files.LocalizationFile.DefaultLocalizationInfo);
+                if (localizationFolder.CheckTranslationExists(LocalizationFile.DefaultLocalizationInfo))
+                    LocalizationFile = localizationFolder.GetTranslationFile(LocalizationFile.DefaultLocalizationInfo);
             }
         }
 

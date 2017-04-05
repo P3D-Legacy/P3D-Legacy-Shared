@@ -51,11 +51,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\LocalizationInfo.cs" />
+    <Compile Include="Extensions\IFolderExtensions.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="LaunchArgsHandler.cs" />
     <Compile Include="Extensions\AsyncExtensions.cs" />
     <Compile Include="Data\Localization.cs" />
+    <Compile Include="Storage\Files\BaseFile.cs" />
     <Compile Include="Storage\Files\LocalizationFile.cs" />
+    <Compile Include="Storage\Folders\BaseFolder.cs" />
     <Compile Include="Storage\Folders\LocalizationFolder.cs" />
     <Compile Include="YamlConverters\CultureInfoConverter.cs" />
     <Compile Include="YamlConverters\EncodedStringConverter.cs" />

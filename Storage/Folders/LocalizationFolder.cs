@@ -10,14 +10,6 @@ using PCLExt.FileStorage;
 
 namespace P3D.Legacy.Shared.Storage.Folders
 {
-    /*
-    public interface ILocalizationFolder : IFolder
-    {
-        Task<ILocalizationFile> GetTranslationFileAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken = default(CancellationToken));
-        Task<bool> CheckTranslationExistsAsync(LocalizationInfo localizationInfo, CancellationToken cancellationToken = default(CancellationToken));
-        Task<IList<ILocalizationFile>> GetTranslationFilesAsync(CancellationToken cancellationToken = default(CancellationToken));
-    }
-    */
     public class LocalizationFolder : BaseFolder
     {
         public LocalizationFolder(IFolder folder) : base(folder) { }
@@ -84,6 +76,6 @@ namespace P3D.Legacy.Shared.Storage.Folders
             });
         }
         public IList<LocalizationFile> GetTranslationFiles() => GetFiles().Where(file => file.Name.StartsWith(LocalizationFile.Prefix) && file.Name.EndsWith(LocalizationFile.FileExtension)).Select(file => new LocalizationFile(file)).ToList();
-        public async Task<IList<LocalizationFile>> GetTranslationFilesAsync(CancellationToken cancellationToken = default(CancellationToken)) => (await GetFilesAsync(cancellationToken)).Where(file => file.Name.StartsWith(LocalizationFile.Prefix) && file.Name.EndsWith(LocalizationFile.FileExtension)).Select(file => new LocalizationFile(file)).ToList();
+        public async Task<IList<LocalizationFile>> GetTranslationFilesAsync(CancellationToken cancellationToken = default(CancellationToken)) => (await GetFilesAsync(cancellationToken: cancellationToken)).Where(file => file.Name.StartsWith(LocalizationFile.Prefix) && file.Name.EndsWith(LocalizationFile.FileExtension)).Select(file => new LocalizationFile(file)).ToList();
     }
 }

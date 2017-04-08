@@ -4,8 +4,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 
 using CsvHelper;
 
@@ -15,15 +13,6 @@ using PCLExt.FileStorage;
 
 namespace P3D.Legacy.Shared.Storage.Files
 {
-    /*
-    public interface ILocalizationFile : IFile
-    {
-        bool IsCustom { get; }
-        LocalizationInfo LocalizationInfo { get; }
-
-        string GetString(string stringID);
-    }
-    */
     public class LocalizationFile : BaseFile
     {
         internal static LocalizationInfo DefaultLocalizationInfo { get; } = new LocalizationInfo(new CultureInfo("en"));

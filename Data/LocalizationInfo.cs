@@ -6,12 +6,11 @@ namespace P3D.Legacy.Shared.Data
 {
     public struct LocalizationInfo
     {
+        [YamlMember(Alias = "CultureInfo")]
         public CultureInfo CultureInfo { get; private set; }
+        [YamlMember(Alias = "SubLanguage")]
         public string SubLanguage { get; private set; }
 
-        [YamlIgnore]
-        public string Author { get; private set; }
-
-        public LocalizationInfo(CultureInfo cultureInfo, string subLanguage = "", string author = "") { CultureInfo = cultureInfo; SubLanguage = subLanguage; Author = author; }
+        public LocalizationInfo(CultureInfo cultureInfo, string subLanguage = "") { CultureInfo = cultureInfo; SubLanguage = subLanguage; }
     }
 }

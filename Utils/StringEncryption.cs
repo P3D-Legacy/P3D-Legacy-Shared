@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace P3D.Legacy.Shared
+namespace P3D.Legacy.Shared.Utils
 {
     public class StringEncryption
     {

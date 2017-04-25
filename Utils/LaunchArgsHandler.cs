@@ -4,7 +4,7 @@ using NDesk.Options;
 
 using P3D.Legacy.Shared.Data;
 
-namespace P3D.Legacy.Shared
+namespace P3D.Legacy.Shared.Utils
 {
     public class LaunchArgsHandler
     {

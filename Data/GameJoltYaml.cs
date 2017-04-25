@@ -22,10 +22,14 @@ namespace P3D.Legacy.Shared.Data
             catch (YamlException) { return null; }
         }
 
+        [YamlMember(Alias = "GameId")]
         public EncodedString GameId { get; set; }
+        [YamlMember(Alias = "GameKey")]
         public EncodedString GameKey { get; set; }
 
+        [YamlMember(Alias = "Username")]
         public EncodedString Username { get; set; }
+        [YamlMember(Alias = "Token")]
         public EncodedString Token { get; set; }
     }
 }

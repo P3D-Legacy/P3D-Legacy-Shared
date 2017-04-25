@@ -1,4 +1,6 @@
-﻿namespace P3D.Legacy.Shared.Data
+﻿using P3D.Legacy.Shared.Utils;
+
+namespace P3D.Legacy.Shared.Data
 {
     public struct EncodedString
     {

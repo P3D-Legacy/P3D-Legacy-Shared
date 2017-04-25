@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace P3D.Legacy.Shared
+namespace P3D.Legacy.Shared.Utils
 {
     public class StringEncoding
     {

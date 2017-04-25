@@ -51,19 +51,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\LocalizationInfo.cs" />
+    <Compile Include="Data\ModificationInfo.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
-    <Compile Include="LaunchArgsHandler.cs" />
+    <Compile Include="Utils\LaunchArgsHandler.cs" />
     <Compile Include="Extensions\AsyncExtensions.cs" />
-    <Compile Include="Data\Localization.cs" />
-    <Compile Include="Storage\Files\LocalizationFile.cs" />
-    <Compile Include="Storage\Folders\LocalizationFolder.cs" />
+    <Compile Include="Utils\Localization.cs" />
+    <Compile Include="Storage\Files\ModificationFile.cs" />
+    <Compile Include="Storage\Files\BaseTranslationFile.cs" />
+    <Compile Include="Storage\Files\TranslationCSVFile.cs" />
+    <Compile Include="Storage\Folders\ModificationFolder.cs" />
+    <Compile Include="Storage\Folders\ModificationsFolder.cs" />
+    <Compile Include="Storage\Folders\MainFolder.cs" />
+    <Compile Include="Storage\Folders\TranslationFolder.cs" />
+    <Compile Include="Storage\Folders\TranslationsFolder.cs" />
     <Compile Include="YamlConverters\CultureInfoConverter.cs" />
     <Compile Include="YamlConverters\EncodedStringConverter.cs" />
     <Compile Include="Data\EncodedString.cs" />
     <Compile Include="Data\GameJoltYaml.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StringEncoding.cs" />
-    <Compile Include="StringEncryption.cs" />
+    <Compile Include="Utils\StringEncoding.cs" />
+    <Compile Include="Utils\StringEncryption.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

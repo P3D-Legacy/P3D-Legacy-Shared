@@ -53,6 +53,7 @@
     <Compile Include="Data\LocalizationInfo.cs" />
     <Compile Include="Data\ModificationInfo.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
+    <Compile Include="Storage\Folders\BaseProfileFolder.cs" />
     <Compile Include="Utils\LaunchArgsHandler.cs" />
     <Compile Include="Extensions\AsyncExtensions.cs" />
     <Compile Include="Utils\Localization.cs" />

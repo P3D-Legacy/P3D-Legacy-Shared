@@ -50,10 +50,9 @@ namespace P3D.Legacy.Shared.Storage.Folders
             var list = new List<TranslationFolder>();
             foreach (var folder in GetFolders())
             {
-                CultureInfo cultureInfo;
                 var cultureInfoName = folder.Name.Split('_').Length > 0 ? folder.Name.Split('_')[0] : string.Empty;
                 var subLanguage = folder.Name.Split('_').Length > 1 ? folder.Name.Split('_')[1] : string.Empty;
-                if (CultureInfoExtensions.TryGetCultureInfo(cultureInfoName, out cultureInfo))
+                if (CultureInfoExtensions.TryGetCultureInfo(cultureInfoName, out var cultureInfo))
                     list.Add(new TranslationFolder(folder, new LocalizationInfo(cultureInfo, subLanguage)));
             }
             return list;
@@ -63,10 +62,9 @@ namespace P3D.Legacy.Shared.Storage.Folders
             var list = new List<TranslationFolder>();
             foreach (var folder in await GetFoldersAsync(cancellationToken))
             {
-                CultureInfo cultureInfo;
                 var cultureInfoName = folder.Name.Split('_').Length > 0 ? folder.Name.Split('_')[0] : string.Empty;
                 var subLanguage = folder.Name.Split('_').Length > 1 ? folder.Name.Split('_')[1] : string.Empty;
-                if (CultureInfoExtensions.TryGetCultureInfo(cultureInfoName, out cultureInfo))
+                if (CultureInfoExtensions.TryGetCultureInfo(cultureInfoName, out var cultureInfo))
                     list.Add(new TranslationFolder(folder, new LocalizationInfo(cultureInfo, subLanguage)));
             }
             return list;

@@ -32,8 +32,7 @@ namespace P3D.Legacy.Shared.Storage.Files
             if (stringID == null)
                 stringID = string.Empty;
 
-            string token;
-            return Tokens.TryGetValue(stringID, out token) ? token : stringID;
+            return Tokens.TryGetValue(stringID, out var token) ? token : stringID;
         }
     }
 }

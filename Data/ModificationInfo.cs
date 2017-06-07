@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-using YamlDotNet.Core;
+﻿using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 
 namespace P3D.Legacy.Shared.Data

@@ -45,39 +45,39 @@ namespace P3D.Legacy.Shared.Data
         }
 
 
-        [YamlMember(Alias = "ID"), Browsable(false)]
+        [YamlMember(Alias = "ID")]
         public string ID { get; set; }
 
-        [YamlMember(Alias = "Author"), DisplayName("Author")]
+        [YamlMember(Alias = "Author")]
         public string Author { get; set; }
 
-        [YamlMember(Alias = "Name"), DisplayName("Name")]
+        [YamlMember(Alias = "Name")]
         public string Name { get; set; }
 
-        [YamlMember(Alias = "Description"), Browsable(false)]
+        [YamlMember(Alias = "Description")]
         public string Description { get; set; }
 
-        [YamlMember(Alias = "InGameDescription"), Browsable(false)]
+        [YamlMember(Alias = "InGameDescription")]
         public string InGameDescription { get; set; }
 
-        [YamlMember(Alias = "Category"), DisplayName("Category")]
+        [YamlMember(Alias = "Category")]
         public ModificationCategories Category { get; set; }
 
-        [YamlMember(Alias = "Version"), DisplayName("Version")]
+        [YamlMember(Alias = "Version")]
         public System.Version Version { get; set; }
 
-        [YamlMember(Alias = "GameVersion"), DisplayName("Game Version")]
+        [YamlMember(Alias = "GameVersion")]
         public System.Version GameVersion { get; set; }
 
         // -- Online Info
 
-        [YamlIgnore, DisplayName("Downloads")]
+        [YamlIgnore]
         public long Downloads { get; set; }
 
-        [YamlIgnore, Browsable(false)]
+        [YamlIgnore]
         public byte Rating { get; set; }
 
-        [YamlIgnore, DisplayName("Rating")]
+        [YamlIgnore]
         public string RatingString => GetRating(Rating);
 
         // -- Online Info

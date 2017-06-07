@@ -1,6 +1,7 @@
 using System;
 using System.Globalization;
-using System.Linq;
+
+using P3D.Legacy.Shared.Extensions;
 
 using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
@@ -12,18 +13,17 @@ namespace P3D.Legacy.Shared.YamlConverters
     {
         public bool Accepts(Type type) => type == typeof(CultureInfo);
 
-        internal static CultureInfo GetCultureInfo(string ietfLanguageTag) => CultureInfo.GetCultures(CultureTypes.AllCultures).FirstOrDefault(info => info.IetfLanguageTag == ietfLanguageTag);
         public object ReadYaml(IParser parser, Type type)
         {
             var value = ((Scalar) parser.Current).Value;
             parser.MoveNext();
-            return GetCultureInfo(value);
+            return CultureInfoExtensions.TryGetCultureInfo(value, out var culture) ? culture : null;
         }
 
         public void WriteYaml(IEmitter emitter, object value, Type type)
         {
             var cultureInfo = (CultureInfo) value;
-            emitter.Emit(new Scalar(null, null, cultureInfo.IetfLanguageTag, ScalarStyle.Plain, true, false));
+            emitter.Emit(new Scalar(null, null, cultureInfo.Name, ScalarStyle.Plain, true, false));
         }
     }
 }

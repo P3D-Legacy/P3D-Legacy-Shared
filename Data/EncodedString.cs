@@ -13,7 +13,7 @@ namespace P3D.Legacy.Shared.Data
 
         private string EncodedData { get; set; }
         private StringEncoding Encoder { get; set; }
-        private string Data { get { return Encoder.Decode(EncodedData); } set { EncodedData = Encoder.Encode(value); } }
+        private string Data { get => Encoder.Decode(EncodedData); set => EncodedData = Encoder.Encode(value); }
 
         public EncodedString(string str) { EncodedData = string.Empty; Encoder = new StringEncoding(); Data = str; }
 

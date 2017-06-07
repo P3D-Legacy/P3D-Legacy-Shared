@@ -23,7 +23,8 @@ namespace P3D.Legacy.Shared.Utils
         private List<BaseTranslationFile> LocalizationFiles { get; set; }
 
         public LocalizationInfo[] Localizations => TranslationsFolder.GetTranslationFolders().Select(tf => tf.LocalizationInfo).ToArray();
-        public string[] Authors => LocalizationFiles.Select(lf => lf.Author).ToArray();
+        //public string[] Authors => LocalizationFiles.Select(lf => lf.Author).ToArray();
+        public string[] AllAuthors => TranslationsFolder.GetTranslationFolders().SelectMany(tFolder => tFolder.GetTranslationFiles()).Select(lf => lf.Author).ToArray();
 
 
         public Localization(LocalizationInfo localizationInfo, IFolder translationsFolder = null)

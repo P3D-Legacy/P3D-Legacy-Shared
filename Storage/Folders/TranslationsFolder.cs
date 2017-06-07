@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using P3D.Legacy.Shared.Data;
+using P3D.Legacy.Shared.Extensions;
 
 using PCLExt.FileStorage;
 
@@ -12,20 +13,6 @@ namespace P3D.Legacy.Shared.Storage.Folders
 {
     public class TranslationsFolder : BaseFolder
     {
-        private static bool TryGetCultureInfo(string cultureCode, out CultureInfo culture)
-        {
-            try
-            {
-                culture = CultureInfo.GetCultureInfo(cultureCode);
-                return true;
-            }
-            catch (CultureNotFoundException)
-            {
-                culture = null;
-                return false;
-            }          
-        }
-
         public TranslationsFolder(IFolder folder) : base(folder) { }
         
         public bool CheckTranslationExists(LocalizationInfo localizationInfo)
@@ -66,7 +53,7 @@ namespace P3D.Legacy.Shared.Storage.Folders
                 CultureInfo cultureInfo;
                 var cultureInfoName = folder.Name.Split('_').Length > 0 ? folder.Name.Split('_')[0] : string.Empty;
                 var subLanguage = folder.Name.Split('_').Length > 1 ? folder.Name.Split('_')[1] : string.Empty;
-                if (TryGetCultureInfo(cultureInfoName, out cultureInfo))
+                if (CultureInfoExtensions.TryGetCultureInfo(cultureInfoName, out cultureInfo))
                     list.Add(new TranslationFolder(folder, new LocalizationInfo(cultureInfo, subLanguage)));
             }
             return list;
@@ -79,7 +66,7 @@ namespace P3D.Legacy.Shared.Storage.Folders
                 CultureInfo cultureInfo;
                 var cultureInfoName = folder.Name.Split('_').Length > 0 ? folder.Name.Split('_')[0] : string.Empty;
                 var subLanguage = folder.Name.Split('_').Length > 1 ? folder.Name.Split('_')[1] : string.Empty;
-                if (TryGetCultureInfo(cultureInfoName, out cultureInfo))
+                if (CultureInfoExtensions.TryGetCultureInfo(cultureInfoName, out cultureInfo))
                     list.Add(new TranslationFolder(folder, new LocalizationInfo(cultureInfo, subLanguage)));
             }
             return list;

@@ -10,7 +10,7 @@ namespace P3D.Legacy.Shared.Storage.Files
 {
     public sealed class TranslationCSVFile : BaseTranslationFile
     {
-        private Dictionary<string, string> Tokens { get; } = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase);
+        private Dictionary<string, string> Tokens { get; } = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
 
         public TranslationCSVFile(IFile file) : base(file)
         {

@@ -6,7 +6,7 @@ namespace P3D.Legacy.Shared.Storage.Files
     {
         public string Author { get; protected set; }
 
-        public BaseTranslationFile(IFile file) : base(file) { }
+        protected BaseTranslationFile(IFile file) : base(file) { }
 
         public abstract string GetString(string stringID);
     }

@@ -5,6 +5,7 @@ using System.IO;
 using CsvHelper;
 
 using PCLExt.FileStorage;
+using PCLExt.FileStorage.Extensions;
 
 namespace P3D.Legacy.Shared.Storage.Files
 {
